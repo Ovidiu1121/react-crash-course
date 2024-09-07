@@ -1,24 +1,19 @@
-export function ProductCard() {
-
-    const product = {
-        imageSrc: "images/iphone.png",
-        title: "iPhone 15 Pro",
-        specification: [
-            "A17 Pro chip with 6-core GPU",
-            "3x or 5x Telephoto camera",
-            "Up to 29 hours video playback"
-        ],
-        price: 999
-    }
+export function ProductCard({ product, background = "slategray", ...restProps }) {
 
     return (
-        <article style={{ border: '1px solid white', borderRadius: '8px', padding: '16px', textAlign: "center" }}>
+        <article style={{
+            background,
+            width: '100%',
+            border: '1px solid white',
+            borderRadius: '8px',
+            padding: '16px',
+            textAlign: "center"
+        }}>
             <h2>{product.title}</h2>
             <img
                 src={product.imageSrc}
                 alt={product.title}
-                width="128px"
-                height="128px"
+                {...restProps}
             />
             <p>Specification:</p>
             <ul style={{ listStyle: "none", padding: 0 }}>
