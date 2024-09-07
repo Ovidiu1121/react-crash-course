@@ -1,4 +1,4 @@
-export function ProductCard({ product, background = "slategray", ...restProps }) {
+export function ProductCard({ product, background = "slategray", onPurchase, ...restProps }) {
 
     return (
         <article style={{
@@ -21,7 +21,7 @@ export function ProductCard({ product, background = "slategray", ...restProps })
                 <li>{product.specification[1]}</li>
                 <li>{product.specification[2]}</li>
             </ul>
-            <button>Buy (From ${product.price})</button>
+            <button onClick={() => onPurchase(product)}>Buy (From ${product.price})</button>
         </article>
     );
 }
