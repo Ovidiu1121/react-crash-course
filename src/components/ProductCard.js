@@ -1,28 +1,41 @@
-export function ProductCard({ product, background = "slategray", onPurchase, ...restProps }) {
+import styles from './ProductCard.module.css'
+
+
+export function ProductCard({ product, background = "slategray", onPurchase }) {
 
     return (
-        <article style={{
-            background,
-            width: '100%',
-            border: '1px solid white',
-            borderRadius: '8px',
-            padding: '16px',
-            textAlign: "center"
-        }}>
+        <article className={styles.Container} style={{ background }}>
             <h2>{product.title}</h2>
             <img
                 src={product.imageSrc}
                 alt={product.title}
-                {...restProps}
+                width={128}
+                height={128}
             />
             <p>Specification:</p>
-            <ul style={{ listStyle: "none", padding: 0 }}>
-                <li>{product.specification[0]}</li>
-                <li>{product.specification[1]}</li>
-                <li>{product.specification[2]}</li>
+            <ul className={styles.Specification}>
+                {product.specification.map((spec, index) => (
+                    <li key={index}>{spec}</li>
+                ))}
             </ul>
-            <button onClick={() => onPurchase(product)}>Buy (From ${product.price})</button>
+            <Status stockCount={product.stockCount} />
+            {product.stockCount > 0 && (
+                <button onClick={() => onPurchase(product)}>Buy (From ${product.price})</button>
+            )}
         </article>
     );
 }
 
+function Status({ stockCount }) {
+    const notAvailableTemplate = (
+        <p className={styles.NotAvailableStatus}>Not available</p>
+    );
+
+    const availableTemplate = (
+        <p className={styles.AvailableStatus}>
+            {stockCount} items available
+        </p>
+    );
+
+    return stockCount === 0 ? notAvailableTemplate : availableTemplate;
+}

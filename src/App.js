@@ -1,6 +1,8 @@
-import "./App.css";
+import styles from "./App.module.css";
 import { ProductCard } from "./components/ProductCard";
 import { ProductLIst } from "./components/ProductList";
+import { Fragment } from "react";
+
 
 function App() {
 
@@ -13,6 +15,7 @@ function App() {
         "3x or 5x Telephoto camera",
         "Up to 29 hours video playback",
       ],
+      stockCount: 10,
       price: 999,
     },
     {
@@ -23,6 +26,7 @@ function App() {
         "Dust, sweat, and water resistant",
         "Up to 6 hours of listening",
       ],
+      stockCount: 0,
       price: 249,
     },
     {
@@ -33,6 +37,7 @@ function App() {
         "Always-On Retina display",
         "Up to 18 hours normal use",
       ],
+      stockCount: 6,
       price: 399,
     },
   ];
@@ -42,29 +47,26 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className={styles.App}>
       <ProductLIst>
-        <ProductCard
-          width="96px"
-          height="96px"
-          background="darkolivegreen"
-          product={products[0]}
-          onPurchase={handlePurchase}
-        />
-        <ProductCard
-          width="64px"
-          height="64px"
-          product={products[1]}
-          onPurchase={handlePurchase}
-        />
-        <ProductCard
-          width="128px"
-          height="128px"
-          background="peru"
-          product={products[2]}
-          onPurchase={handlePurchase} />
+        {products.map(product => <ProductCard key={product.title} product={product} onPurchase={handlePurchase} />)}
       </ProductLIst>
-    </div>
+
+      <h2>Product which costs up to $500</h2>
+
+      {products.filter(({ price }) => price < 500)
+        .map(({ title, price }) => (
+          <Fragment key={title}>
+            <hr className={styles.ListDivider} />
+            <p className={styles.ListTitle}>
+              {title} costs ${price}
+            </p>
+          </ Fragment>
+        ))
+      }
+
+
+    </div >
   );
 }
 
