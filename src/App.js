@@ -9,6 +9,7 @@ function App() {
 
   const products = [
     {
+      id: 1,
       imageSrc: "images/iphone.png",
       title: "iPhone 15 Pro",
       specification: [
@@ -20,6 +21,7 @@ function App() {
       price: 999,
     },
     {
+      id: 2,
       imageSrc: "images/airpods.png",
       title: "AirPods Pro 2",
       specification: [
@@ -31,6 +33,7 @@ function App() {
       price: 249,
     },
     {
+      id: 3,
       imageSrc: "images/apple-watch.png",
       title: "Apple Watch 9",
       specification: [
@@ -42,6 +45,8 @@ function App() {
       price: 399,
     },
   ];
+
+  let [favorites, setFavorites] = useState([]);
 
   let [filters, setFilters] = useState({
     price: {
@@ -66,10 +71,27 @@ function App() {
     }))
   }
 
+  function handleFavorites(productId) {
+
+    if (favorites.includes(productId)) {
+      setFavorites((prevFavorites) => prevFavorites.filter(id => id !== productId))
+    } else {
+      setFavorites((prevFavorites) => [...prevFavorites, productId])
+    }
+
+  }
+
   return (
     <div className={styles.App}>
       <ProductLIst>
-        {products.map(product => <ProductCard key={product.title} product={product} onPurchase={handlePurchase} />)}
+        {products.map(product =>
+          <ProductCard
+            key={product.title}
+            product={product}
+            isFavorite={favorites.includes(product.id)}
+            onPurchase={handlePurchase}
+            onFavorite={handleFavorites}
+          />)}
       </ProductLIst>
 
       <h2>Product filtered by price</h2>
