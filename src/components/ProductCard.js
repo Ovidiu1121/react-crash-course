@@ -4,18 +4,14 @@ import { useState } from 'react';
 
 export function ProductCard({ product, background = "slategray", onPurchase, onFavorite, isFavorite }) {
 
-    let [stockCount, setStockCount] = useState(product.stockCount);
     let [showMore, setShowMore] = useState(false);
 
     function handleClick() {
-        setStockCount((previousStockCount) => previousStockCount - 1);
-        onPurchase(product)
+        onPurchase(product.id, product.stockCount - 1)
     }
 
     function handleTwoClicks() {
-
-        setStockCount((previousStockCount) => previousStockCount - 1);
-        setStockCount((previousStockCount) => previousStockCount - 1);
+        onPurchase(product.id, product.stockCount - 2)
     }
 
     return (
@@ -38,14 +34,14 @@ export function ProductCard({ product, background = "slategray", onPurchase, onF
                     <li key={index}>{spec}</li>
                 ))}
             </ul>)}
-            <Status stockCount={stockCount} />
-            {stockCount > 0 && (
+            <Status stockCount={product.stockCount} />
+            {product.stockCount > 0 && (
                 <>
                     <p>Price: ${product.price}</p>
                     <button onClick={handleClick}>Buy</button>
                 </>
             )}
-            {stockCount > 1 && (
+            {product.stockCount > 1 && (
                 <button onClick={handleTwoClicks}>Buy 2</button>
             )}
         </article>

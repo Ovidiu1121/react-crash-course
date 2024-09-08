@@ -4,48 +4,11 @@ import { ProductLIst } from "./components/ProductList";
 import { Fragment } from "react";
 import { ProductFilter } from "./components/ProductFilter";
 import { useState } from "react";
+import { products as productsData } from "./data/products";
 
 function App() {
 
-  const products = [
-    {
-      id: 1,
-      imageSrc: "images/iphone.png",
-      title: "iPhone 15 Pro",
-      specification: [
-        "A17 Pro chip with 6-core GPU",
-        "3x or 5x Telephoto camera",
-        "Up to 29 hours video playback",
-      ],
-      stockCount: 10,
-      price: 999,
-    },
-    {
-      id: 2,
-      imageSrc: "images/airpods.png",
-      title: "AirPods Pro 2",
-      specification: [
-        "Noise Cancellation",
-        "Dust, sweat, and water resistant",
-        "Up to 6 hours of listening",
-      ],
-      stockCount: 0,
-      price: 249,
-    },
-    {
-      id: 3,
-      imageSrc: "images/apple-watch.png",
-      title: "Apple Watch 9",
-      specification: [
-        "45mm or 41mm case size",
-        "Always-On Retina display",
-        "Up to 18 hours normal use",
-      ],
-      stockCount: 6,
-      price: 399,
-    },
-  ];
-
+  let [products, setProducts] = useState(productsData);
   let [favorites, setFavorites] = useState([]);
 
   let [filters, setFilters] = useState({
@@ -56,8 +19,12 @@ function App() {
     other: 'other value'
   });
 
-  function handlePurchase(product) {
-    alert(`You clicked on ${product.title} which cost $${product.price}`);
+  function handlePurchase(productId, stockCount) {
+    setProducts((prevProducts) =>
+      prevProducts.map((product) =>
+        product.id === productId ? { ...product, stockCount } : product
+      )
+    );
   }
 
   function handleFilter(key, value) {
